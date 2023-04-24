@@ -35,26 +35,44 @@ public class Genetic {
     public Individual genticAlgorithm(int sizeProblem){
         
         int nbrItr = 0 ;
+        List<Integer> parents;
         List<Individual> population , children , newGeneration;
         Individual parent1 , parent2 ,bestSolution ;
-        List<Integer> parents;
-        
         population = Genetic.generatePopulation(this.sizePopulation, sizeProblem);      
         bestSolution = population.get(0);
+        
         while ( bestSolution.getFitness() !=  sizeProblem &&  nbrItr < maxIter  ) {
-            parents = selectParentsUniforme(this.sizePopulation, 1);
-            newGeneration = new ArrayList<Individual>();
-            while ( ! parents.isEmpty() ){
-                parent1 = population.get(parents.remove(0));
-                parent2 = population.get(parents.remove(0));
-                parent1 = population.get(0);
-                parent2 = population.get(1);
-                // Effectue le croisement et la mutation des deux parents sélectionnés pour créer des enfants
-                children = Individual.crossover(parent1, parent2, 1 , crossoverRate);
-                children.get(0).mutate(mutationRate , 1);
-                children.get(1).mutate(mutationRate , 1);  
-                newGeneration.addAll(children);
-            }            
+            newGeneration = new ArrayList<Individual>();   
+            // Effectue le croisement et la mutation des deux parents sélectionnés pour créer des enfants 
+            parents  = selectParentsUniforme(this.sizePopulation , 1);
+            parent1 = population.get(parents.remove(0)); 
+            parent2 = population.get(parents.remove(0));            
+            children = Individual.crossover(parent1, parent2, crossoverRate);
+            children.get(0).mutate(mutationRate);
+            children.get(1).mutate(mutationRate);  
+            newGeneration.addAll(children);
+            // Effectue le croisement et la mutation des deux parents sélectionnés pour créer des enfants         
+            parent1 = population.get(0); // best 
+            parent2 = population.get(sizePopulation - 1 ); // worst            
+            children = Individual.crossover(parent1, parent2, crossoverRate);
+            children.get(0).mutate(mutationRate);
+            children.get(1).mutate(mutationRate);  
+            newGeneration.addAll(children);
+            // Effectue le croisement et la mutation des deux parents sélectionnés pour créer des enfants
+            parent1 = population.get(sizePopulation - 1); // worst 
+            parent2 = population.get(sizePopulation - 2 ); // worst            
+            children = Individual.crossover(parent1, parent2 , crossoverRate);
+            children.get(0).mutate(mutationRate);
+            children.get(1).mutate(mutationRate);  
+            newGeneration.addAll(children);
+            // Effectue le croisement et la mutation des deux parents sélectionnés pour créer des enfants
+            parent1 = population.get(0); // best 
+            parent2 = population.get(1); // best            
+            children = Individual.crossover(parent1, parent2 , crossoverRate);
+            children.get(0).mutate(mutationRate);
+            children.get(1).mutate(mutationRate);  
+            newGeneration.addAll(children);
+            
             // diminuer la taille de population en utilisant des techenique du remplacement
             population = replace(population , newGeneration);
             bestSolution = population.get(0);
@@ -70,7 +88,7 @@ public class Genetic {
         for ( int i = 0; i < sizePopulation; i++ ) 
             population.add(new Individual(sizeProblem , false));
         
-        // Trie la population de maniere decroissante
+        // Trie la population de maniere croissante
         Collections.sort(population, new Comparator<Individual>(){
             @Override
             public int compare(Individual o1, Individual o2) {
@@ -85,6 +103,7 @@ public class Genetic {
         
         List<Integer> indexParents = new ArrayList<>();
         NavigableSet<Integer> parents = new TreeSet<>(); 
+        
         for ( int i = 0; i < nbrParents; i++){
             
             // selectionne deux parents differents 
@@ -95,8 +114,10 @@ public class Genetic {
             indexParents.addAll(parents);            
         }         
         return indexParents;
-    }
-     
+    } 
+    
+    
+    
     public static List<Individual> replace(List<Individual> population , List<Individual> children){
         
         int size = population.size();  
@@ -118,6 +139,18 @@ public class Genetic {
     public void printSolution( int[] tab){
         for ( int i=0 ; i < tab.length; i++)
             System.out.print(" || " + tab[i]);
+    }
+    
+    public void printBorad(int[] borad){
+        
+        for ( int row = 0; row < borad.length; row++){
+            for ( int col = 0; col < borad.length; col++){
+                if (borad[row] == col) 
+                      System.out.print(" Q ");
+                else  System.out.print(" X ");            
+            }
+            System.out.print(" \n"); 
+        }          
     }
     
     

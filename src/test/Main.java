@@ -18,7 +18,7 @@ import solution.Heuristique2Solution;
  * @author client
  */
 public class Main {
-    
+    /**
     public static void main(String[] args) {
         
         long startTime , endTime;
@@ -43,5 +43,5 @@ public class Main {
 
         
     }
-    
+    **/
 }

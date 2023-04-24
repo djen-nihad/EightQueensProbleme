@@ -10,16 +10,17 @@ package metaHeurestique.GeneticAlgorithm;
  * @author client
  */
 public class main {
-    static final int  maxIter = 5000;
-    static final int sizePopulation = 20 ;
-    static final double mutationRate  = 0.3;
-    static final double crossoverRate = 0.4;
+    static final int  maxIter = 50000;
+    static final int sizePopulation = 400 ;
+    static final double mutationRate  = 1;
+    static final double crossoverRate = 1;
+    
     
     public static void main(String[] args){
-        
         Genetic test = new Genetic( maxIter , sizePopulation  , mutationRate , crossoverRate );
-        Individual solution = test.genticAlgorithm(58);
-        test.printSolution(solution.getGenes());
+        Individual solution = test.genticAlgorithm(100);
+
+     //   test.printBorad(solution.getGenes());
         System.out.println( "\n  fitness :  " + solution.getFitness());
   
      }
