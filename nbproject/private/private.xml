@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/client/Documents/GitHub/EightQueensProblem/src/metaHeurestique/GeneticAlgorithm/Genetic.java</file>
-            <file>file:/C:/Users/client/Documents/GitHub/EightQueensProblem/src/metaHeurestique/metaHeurstique.java</file>
-            <file>file:/C:/Users/client/Documents/GitHub/EightQueensProblem/src/metaHeurestique/PSO/Particule.java</file>
-            <file>file:/C:/Users/client/Documents/GitHub/EightQueensProblem/src/metaHeurestique/GeneticAlgorithm/Individual.java</file>
-            <file>file:/C:/Users/client/Documents/GitHub/EightQueensProblem/src/metaHeurestique/PSO/PSO.java</file>
-            <file>file:/C:/Users/client/Documents/GitHub/EightQueensProblem/src/metaHeurestique/GeneticAlgorithm/main.java</file>
+            <file>file:/C:/Users/client/Documents/GitHub/EightQueensProblem/src/test/Main.java</file>
+            <file>file:/C:/Users/client/Documents/GitHub/EightQueensProblem/src/test/main_1.java</file>
+            <file>file:/C:/Users/client/Documents/GitHub/EightQueensProblem/src/mainWindow.java</file>
         </group>
     </open-files>
 </project-private>

@@ -29,13 +29,12 @@ public class Board extends JPanel {
                 g.setColor(squareColor);
                 g.fillRect(x, y, boardSize / gridSize, boardSize / gridSize); 
                 if ( this.board != null && board[row][col]) { 
-                    System.out.println( " row = " + row + " col = " + col);
                     drawQueen(g, row, col);
                 }
             }
         }
     }
-    
+ 
     public void drawQueen(Graphics g, int row, int col) {        
         Image queenImg;        
         String imageName = (row + col) % 2 == 0 ? "queen_dark.png" : "queen_light.png" ;

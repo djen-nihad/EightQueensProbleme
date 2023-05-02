@@ -19,6 +19,10 @@ public class Genetic {
     private final int sizePopulation;
     private final double mutationRate;
     private final double crossoverRate;
+    
+    private int stagnation_count ;
+    private int seuil;
+    private int fitnessPred;
 
         
 
@@ -27,32 +31,45 @@ public class Genetic {
         this.sizePopulation = sizePopulation;
         this.mutationRate = mutationRate;
         this.crossoverRate = crossoverRate;
+        this.stagnation_count = 0;
+        this.seuil = 0;
     }
     
     public Chromosome geneticAlgorithm(int sizeProblem){
         
-        int nbrItr = 0 ;
+        int nbrItr = 0 , nbrParents ;
         List<Integer> parents;
         List<Chromosome> population , children , newGeneration;
         Chromosome parent1 , parent2 ,bestSolution ;
+        
         population = Genetic.generatePopulation(this.sizePopulation, sizeProblem);      
         bestSolution = population.get(0);
+        fitnessPred = bestSolution.fitness;
+        
+        nbrParents = this.sizePopulation * 45 / 100;
         
         while ( bestSolution.fitness !=  0 &&  nbrItr < maxIter  ) {
             newGeneration = new ArrayList<Chromosome>(); 
-            parents = selectParents(this.sizePopulation, 20);            
+            parents = selectParents(this.sizePopulation, nbrParents );            
             while ( ! parents.isEmpty() ){                
                 parent1 = population.get(parents.remove(0));
                 parent2 = population.get(parents.remove(0));
                 children = Chromosome.crossover(parent1, parent2, crossoverRate);
-                newGeneration.addAll(children);
+               // newGeneration.addAll(children);
                 newGeneration.add(Chromosome.mutate(children.get(0), mutationRate));
                 newGeneration.add(Chromosome.mutate(children.get(1), mutationRate));              
             }
-            
             // diminuer la taille de population en utilisant des techenique du remplacement
             population = replace(population , newGeneration);
             bestSolution = population.get(0);
+            
+            
+            if ( bestSolution.fitness - fitnessPred < seuil) this.stagnation_count++;
+            else this.stagnation_count = 0;           
+            if ( this.stagnation_count == 1 )
+                population = perturbation(population); 
+            
+            fitnessPred = bestSolution.fitness;
             nbrItr++;
         } 
         return bestSolution; 
@@ -81,10 +98,12 @@ public class Genetic {
         List<Integer> indexParents = new ArrayList<>();
 
         for ( int i = 0; i < nbrParents; i++){
-            indexParents.add(i);
-            indexParents.add(i + 1);
-            indexParents.add(i);
-            indexParents.add(sizePopulation - i - 1 );
+            indexParents.add(i); // best
+            indexParents.add(i + 1); //best
+            indexParents.add(i); //best
+            indexParents.add(sizePopulation - i - 1 ); //worst
+            indexParents.add(sizePopulation - i - 1); //worst
+            indexParents.add(sizePopulation - i - 2 ); //worst
             
         }         
         return indexParents;
@@ -108,6 +127,25 @@ public class Genetic {
         return population;       
     }
     
+    public List<Chromosome> perturbation(List<Chromosome> population) {
+        
+        for ( Chromosome chromosome : population){
+            chromosome.genes = chromosome.reparerSolution(chromosome.genes);
+            chromosome.fitness = chromosome.fitness(chromosome.genes);
+        }
+        Collections.sort(population, new Comparator<Chromosome>(){
+            @Override
+            public int compare(Chromosome o1, Chromosome o2) {
+                 return o1.fitness - o2.fitness;              
+            }                 
+        });
+        
+        return population;    
+        
+       
+    }
+    
+    
     public void printSolution( int[] tab){
         for ( int i=0 ; i < tab.length; i++)
             System.out.print(" || " + tab[i]);
@@ -124,6 +162,7 @@ public class Genetic {
             System.out.print(" \n"); 
         }          
     }
+
     
     
     

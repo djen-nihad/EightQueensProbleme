@@ -37,8 +37,8 @@ public class Chromosome extends OptimizationProblem {
         List<Chromosome> newGeneration = new ArrayList<Chromosome>();        
         
         if ( crossoverRate <= Math.random() ) {
-            newGeneration.add(Chromosome.mutate(parent1, 1));
-            newGeneration.add(Chromosome.mutate(parent2, 1));
+            newGeneration.add(parent1);
+            newGeneration.add(parent2);
             return newGeneration;
         }      
         
@@ -50,7 +50,7 @@ public class Chromosome extends OptimizationProblem {
         child2 = new Chromosome ( size , true );
         
         crossoverPoint = (int) (Math.random() * ( size  - 1 )  );
-        System.arraycopy(parent1.genes, 0, child1.genes, 0, crossoverPoint);
+        System.arraycopy(parent1.genes, 0 , child1.genes, 0, crossoverPoint);
         System.arraycopy(parent2.genes, crossoverPoint, child1.genes, crossoverPoint, size - crossoverPoint);
 
         System.arraycopy(parent2.genes, 0, child2.genes, 0, crossoverPoint);
