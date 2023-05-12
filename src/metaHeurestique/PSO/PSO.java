@@ -64,8 +64,9 @@ public class PSO {
                 population = perturbation(population);
                 this.stagnation_count = 0;
             }
+            bestFitnessPred = this.GBestFitness;
         }
-    //    this.GBest = bestParticule.PBest;
+      
         return this.GBest;
     }
     
